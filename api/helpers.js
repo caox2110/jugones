@@ -1,4 +1,4 @@
-const getPlayer = (playerId, teams) =>  {
+const getPlayer = (playerId, teams = []) =>  {
   var player
   var team = teams.find(t => {
     player = t.players.find(p => p.id === playerId)

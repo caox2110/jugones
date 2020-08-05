@@ -12,7 +12,7 @@ function Error({
         return (
             <Fragment>
                 <div className={styles.container} >
-                    <span className={styles.message}>{message}</span>
+                    <span className={styles.message}>Error: {message}</span>
                 </div>
                 {children}
             </Fragment>

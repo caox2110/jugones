@@ -1,7 +1,7 @@
 var express = require('express');
 var cors = require('cors');
 var bodyParser = require('body-parser')
-var helpers = require('./helpers')
+var helpers = require('./helpers');
 var app = express();
 app.use(cors());
 app.use(bodyParser.json());
@@ -247,7 +247,21 @@ app.get('/players', function (req, res) {
 });
 
 app.get('/pichichis', function (req, res) {
-  res.json(pichichis)
+
+  const results = pichichis.map(pichichi => {
+    const { playerId } = pichichi
+    const player = helpers.getPlayer(playerId, [madrid, barcelona, atletico])
+    let pichichiClone = { ...pichichi }
+    delete pichichiClone.playerId
+    const { goals } = pichichiClone
+    pichichiClone = { ...pichichiClone, goals: (goals ? parseInt(goals, 10) : 0) }
+    return {
+      ...pichichiClone,
+      ...player
+    }
+  })
+
+  res.json(results)
 });
 
 app.post('/transfer', function (req, res) {

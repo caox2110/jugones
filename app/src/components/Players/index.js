@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react'
 import services from '../../services'
 
 // Components
-import Player from '../Player'
+import Player from './components/Player'
 import { Spin, Error } from '../shared'
 
 // Estilos
@@ -12,12 +12,13 @@ import styles from './index.module.css'
 
 function Players() {
 
+    const { playerService } = services
+    
     const [loading, setLoading] = useState(false)
     const [hasError, setHasError] = useState(false)
     const [players, setPlayers] = useState([])
 
     const getPlayersAction = async () => {
-        const { playerService } = services
         setLoading(true)
         setHasError(false)
         try {
@@ -26,6 +27,7 @@ function Players() {
         } catch (err) {
             console.log(`El error es: ${err}`)
             setHasError(true)
+            setPlayers([])
         }
         setLoading(false)
     }

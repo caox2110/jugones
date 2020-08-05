@@ -8,7 +8,7 @@
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  background: white;
+  background: var(--neutral-color-0);
   border-radius: 16px;
   padding: 8px;
 }
@@ -32,13 +32,14 @@
   flex-direction: column;
   overflow-y: auto;
   max-height: calc(100vh - 250px);
+  min-height: 200px;
 }
 
 .footer {
   display: flex;
   flex: 1;
   flex-direction: column;
-  background: #fff;
+  background: var(--neutral-color-0);
   align-items: flex-start;
   justify-content: start;
   padding: 16px;
