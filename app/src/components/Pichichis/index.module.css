@@ -36,3 +36,17 @@
 .th:first-child, .td:first-child {
     text-align: start;
 }
+
+.sorterDown, .sorterUp{
+    text-decoration: none;
+    color: var(--neutral-color-9);
+}
+
+.sorterDown:after {
+    content: '\02C4';
+    
+}
+
+.sorterUp:after {
+    content: '\02C5';
+}
