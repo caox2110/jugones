@@ -3,7 +3,10 @@ module.exports = {
   webpack: {
     define: {
       'process.env.API_BASE_URL': JSON.stringify('http://localhost:3001'),
-      'process.env.REQUEST_CONTENT_TYPE': JSON.stringify('application/json')
+      'process.env.REQUEST_CONTENT_TYPE': JSON.stringify('application/json'),
+      'process.env.INDEXDB_BD_VERSION': 1,
+      'process.env.INDEXDB_BD_NAME': JSON.stringify('JugonesDB'),
+      'process.env.INDEXDB_TABLE_NAME': JSON.stringify('Data')
     },
     config(config) {
       // Change config as you wish
@@ -34,6 +37,6 @@ module.exports = {
 
       // You MUST return the edited config object
       return config
-    }
+    },
   }
 }

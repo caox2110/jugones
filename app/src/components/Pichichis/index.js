@@ -3,8 +3,14 @@ import React, { useState, useEffect } from 'react'
 // Servicios
 import services from '../../services'
 
+// Custom Hooks
+import { useIndexedDB } from '../../hooks'
+
+// Custom Hooks
+import { messagesConstants as constants } from '../../constants'
+
 // Componentes
-import { Spin, Error } from '../shared'
+import { Spin, Message } from '../shared'
 
 // Estilos
 import styles from './index.module.css'
@@ -14,21 +20,27 @@ function Pichichis({
 }) {
 
     const { pichichiService } = services
+    const { ERROR } = constants
 
     const [loading, setLoading] = useState(false)
-    const [hasError, setHasError] = useState(false)
+    const [level, setLevel] = useState(ERROR)
+    const [message, setMessage] = useState('')
     const [pichichis, setPichichis] = useState([])
     const [direction, setDirection] = useState('sorterDown')
+    const [pichichisFromIdb, setPichichisInIdb] = useIndexedDB('pichichis')
 
     const getPichichisAction = async () => {
         setLoading(true)
-        setHasError(false)
+        setMessageConfig()
         try {
             const response = await pichichiService.getPichichis()
-            setPichichis(response)
+            setData(response)
         } catch (err) {
             console.log(`El error es: ${err}`)
-            setHasError(true)
+            setMessageConfig(
+                'En estos momentos no se pueden obtener los pichichis del servidor.',
+                ERROR
+            )
         }
         setLoading(false)
     }
@@ -48,20 +60,37 @@ function Pichichis({
         setPichichis(results)
     }
 
+    const setData = (data = []) => {
+        setPichichis(data)
+        setPichichisInIdb(data)
+    }
+
+    const setMessageConfig = (msg = '', lvl = ERROR) => {
+        setLevel(lvl)
+        setMessage(msg)
+    }
+
     useEffect(
         () => {
             if (modalVisible)
                 getPichichisAction()
         }, [modalVisible])
 
+    useEffect(
+        () => {
+            if (pichichisFromIdb)
+                setData(pichichisFromIdb)
+        }, [pichichisFromIdb])
+
     return (
         <div className={styles.container}>
             <Spin
                 visible={loading}
             >
-                <Error
-                    visible={hasError}
-                    message='En estos momentos no se pueden obtener los pichichis'
+                <Message
+                    visible={(message.length > 0)}
+                    message={message}
+                    level={level}
                 >
                     <table className={styles.table}>
                         <thead>
@@ -110,7 +139,7 @@ function Pichichis({
                             }
                         </tbody>
                     </table>
-                </Error>
+                </Message>
             </Spin>
         </div>
     )

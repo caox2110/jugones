@@ -3,9 +3,15 @@ import React, { useState, useEffect } from 'react'
 // Servicios
 import services from '../../services'
 
+// Custom Hooks
+import { useIndexedDB } from '../../hooks'
+
+// Custom Hooks
+import { messagesConstants as constants } from '../../constants'
+
 // Components
 import Player from './components/Player'
-import { Spin, Error } from '../shared'
+import { Spin, Message } from '../shared'
 
 // Estilos
 import styles from './index.module.css'
@@ -13,23 +19,38 @@ import styles from './index.module.css'
 function Players() {
 
     const { playerService } = services
-    
+    const { ERROR } = constants
+
     const [loading, setLoading] = useState(false)
-    const [hasError, setHasError] = useState(false)
     const [players, setPlayers] = useState([])
+    const [level, setLevel] = useState(ERROR)
+    const [message, setMessage] = useState('')
+    const [playersFromIdb, setPlayersInIdb] = useIndexedDB('players')
 
     const getPlayersAction = async () => {
         setLoading(true)
-        setHasError(false)
+        setMessageConfig()
         try {
             const response = await playerService.getPlayers()
-            setPlayers(response)
+            setData(response)
         } catch (err) {
             console.log(`El error es: ${err}`)
-            setHasError(true)
-            setPlayers([])
+            setMessageConfig(
+                'En estos momentos no se pueden obtener los jugadores del servidor.',
+                ERROR
+            )
         }
         setLoading(false)
+    }
+
+    const setData = (data = []) => {
+        setPlayers(data)
+        setPlayersInIdb(data)
+    }
+
+    const setMessageConfig = (msg = '', lvl = ERROR) => {
+        setLevel(lvl)
+        setMessage(msg)
     }
 
     useEffect(
@@ -37,13 +58,20 @@ function Players() {
             getPlayersAction()
         }, [])
 
+    useEffect(
+        () => {
+            if (playersFromIdb)
+                setData(playersFromIdb)
+        }, [playersFromIdb])
+
     return (
         <Spin
             visible={loading}
         >
-            <Error
-                visible={hasError}
-                message='En estos momentos no se pueden obtener los jugadores'
+            <Message
+                visible={(message.length > 0)}
+                message={message}
+                level={level}
             >
                 <ul className={styles.cardContainer}>
                     {
@@ -57,7 +85,7 @@ function Players() {
                         )
                     }
                 </ul>
-            </Error>
+            </Message>
         </Spin>
     )
 }

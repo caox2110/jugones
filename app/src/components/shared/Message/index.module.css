@@ -1,0 +1,19 @@
+.container {
+    padding: 16px;
+}
+
+.message {
+    margin-bottom: 12px;
+}
+
+.error {
+    color: var(--red-color-base);
+}
+
+.warning {
+    color: var(--orange-color-light);
+}
+
+.success {
+    color: var(--red-color-base);
+}

@@ -1,9 +1,9 @@
 import Spin from './Spin'
-import Error from './Error'
+import Message from './Message'
 import Modal from './Modal'
 
 export {
     Spin,
-    Error,
+    Message,
     Modal
 }
