@@ -21,16 +21,11 @@ class App extends PureComponent {
           Borra todo el código que no sea necesario. Solo debe existir un título: Los jugadores
           y una lista con sus nombres. 
           ** Los comentarios de los ejercicios no los borres.
-        */}
-          <h3>Jugadores:</h3>
-          <ul>
-            {/* 
             TODO ejercicio 3
             Vamos a pasar a darle diseño. Crea el diseño propuesto en el readme con los requerimientos que se necesite.
             Guiate por las imágenes.
            */}
-            <Players />
-          </ul>
+          <Players />
         </div>
       </div>
     )

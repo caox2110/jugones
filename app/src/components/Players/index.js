@@ -4,24 +4,27 @@ import React, { useState, useEffect } from 'react'
 import services from '../../services'
 
 // Components
+import Player from '../Player'
 import { Spin, Error } from '../shared'
 
+// Estilos
+import styles from './index.module.css'
 
 function Players() {
-
-    const { playerService } = services
 
     const [loading, setLoading] = useState(false)
     const [hasError, setHasError] = useState(false)
     const [players, setPlayers] = useState([])
 
     const getPlayersAction = async () => {
+        const { playerService } = services
         setLoading(true)
+        setHasError(false)
         try {
             const response = await playerService.getPlayers()
             setPlayers(response)
-        } catch (error) {
-            console.log(`El error es: ${error}`)
+        } catch (err) {
+            console.log(`El error es: ${err}`)
             setHasError(true)
         }
         setLoading(false)
@@ -40,11 +43,14 @@ function Players() {
                 visible={hasError}
                 message='En estos momentos no se pueden obtener los jugadores'
             >
-                <ul>
+                <ul className={styles.cardContainer}>
                     {
                         players.map(
                             (player, i) => (
-                                <li key={`${player.teamId}-${i}`}>{player.name}</li>
+                                <Player
+                                    key={`${player.teamId}-${i}`}
+                                    player={player}
+                                />
                             )
                         )
                     }

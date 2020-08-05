@@ -1,0 +1,128 @@
+.cardItem {
+    display: flex;
+    flex-direction: column;
+    flex: 25%;
+    padding: 24px;
+}
+
+.card {
+    padding: 16px;
+    border: 1px solid var(--neutral-color-5);
+    border-radius: 4px;
+    padding: 10px;
+    margin-top: 10px;
+    text-align: center;
+    min-width: 280px;
+}
+
+.logoContainer {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.logo {
+    position: absolute;
+    width: 30px;
+    top: 20
+}
+
+.cardImageContainer {
+    min-height: 260px;
+    padding-top: 10px;
+}
+
+.cardImage {
+    width: 250px;
+    height: 250px;
+    border-radius: 50% 50% 50% 50%;
+    object-fit: cover;
+}
+
+.name {
+    font-size: 20px;
+}
+
+.position {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.team {
+    font-size: 16px;
+}
+
+@media (max-width: 1024px) {
+    .cardItem {
+        flex: 40%;
+    }
+}
+
+@media (max-width: 1024px) and (orientation: landscape) {
+    .cardItem {
+        flex: 100%;
+    }
+}
+
+@media (max-width: 768px) and (orientation: landscape) {
+
+    .contentContainer {
+        display: flex;
+        flex-direction: row;
+    }
+    .contentContainer .nameContainer {
+        flex: 100%;
+        text-align: start;
+        padding: 24px;
+        margin: auto;
+    }
+    .contentContainer .cardImageContainer {
+        min-height: auto;
+        padding-top: 10px;
+    }
+    .contentContainer .cardImage {
+        width: 100px;
+        height: 100px;
+    }
+}
+
+@media (max-width: 768px) and (orientation: portrait) {
+    .cardItem {
+        flex: 100%;
+    }
+
+    .contentContainer {
+        display: flex;
+        flex-direction: column;
+    }
+    .contentContainer .nameContainer {
+        flex: 100%;
+        text-align: center;
+        padding: 24px;
+        margin: auto;
+    }
+    .contentContainer .cardImageContainer {
+        min-height: 260px;
+        padding-top: 10px;
+    }
+    .contentContainer .cardImage {
+        width: 250px;
+        height: 250px;
+    }
+}
+
+@media (max-width: 600px) and (orientation: portrait) {
+    .contentContainer .cardImageContainer {
+        min-height: 210px;
+        padding-top: 10px;
+    }
+    .contentContainer .cardImage {
+        width: 200px;
+        height: 200px;
+    }
+}
+
+@media (max-width: 425px) {
+    .cardItem {
+        padding: 8px;
+    }
+}

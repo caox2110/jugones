@@ -226,17 +226,23 @@ app.get('/players', function (req, res) {
         const { players } = team
         return [
           ...playersGrouped,
-          ...players.map(player => {
-            const { name, position, img, url, id } = player
-            return {
-              name,
-              position: POSITIONS_STRING[position],
-              img: (atleticoImages[id] || img || url),
-              teamId: parseInt(team.id, 10),
+          ...players.map(
+            player => {
+              const { name, position, img, url, id } = player
+              let teamClone = { ...team }
+              delete teamClone.players
+              return {
+                id,
+                name,
+                position: POSITIONS_STRING[position],
+                img: (atleticoImages[id] || img || url),
+                team: teamClone
+              }
             }
-          })
+          )
         ]
       }, [])
+
   res.json(results)
 });
 
