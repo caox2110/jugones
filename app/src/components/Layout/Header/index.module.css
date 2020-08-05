@@ -1,0 +1,32 @@
+.headerBar {
+    background: #eeeeee;
+    min-height: 40px;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+}
+
+.pichichisButton {
+    padding: 4px 12px 4px 12px;
+    border-radius: 16px;
+    text-transform: capitalize;
+    margin-right: 32px;
+}
+
+@media (max-width: 768px) {
+    .pichichisButton {
+        margin-right: 16px;
+    }
+}
+
+@media (max-width: 425px) {
+    .pichichisButton {
+        margin-right: 8px;
+    }
+}
