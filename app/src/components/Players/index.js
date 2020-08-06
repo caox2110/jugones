@@ -123,6 +123,7 @@ function Players() {
                     modalVisible={visible}
                     playerSelected={playerSelected}
                     players={players}
+                    hasChange={hasChange}
                     setHasChange={setHasChange}
                 />
             </Modal>

@@ -269,26 +269,27 @@ app.get('/pichichis', function (req, res) {
 });
 
 app.post('/transfer', function (req, res) {
-  var playerId = String(req.body.playerId)
-  var teamId = String(req.body.teamId)
 
-  var team = teamsMap[req.body.teamId]
+  // BODY
+  const playerId = String(req.body.playerId)
+  const teamId = String(req.body.teamId)
+
+  const team = teamsMap[req.body.teamId]
 
   if (!team) {
     res.json({ error: true, code: 1, message: 'team not found' })
     return
   }
 
-  var playerFound = helpers.getPlayer(playerId, [madrid, barcelona, atletico])
-
-  var player = playerFound.player
+  const playerFound = helpers.getPlayer(playerId, [madrid, barcelona, atletico])
+  const player = playerFound.player
 
   if (!player) {
     res.json({ error: true, code: 2, message: 'player not found' })
     return
   }
 
-  var teamIdPlayer = playerFound.teamId
+  const teamIdPlayer = playerFound.teamId
 
   if (teamIdPlayer === teamId) {
     res.json({ error: true, code: 3, message: 'the player is into this team' })
@@ -303,6 +304,17 @@ app.post('/transfer', function (req, res) {
   // TODO ejercicio 8
   // añade el código para cambiar de equipo al jugador
   // restar el precio de la transacción al equipo
+
+  // Eliminar jugador de su equipo
+  let oldTeam = teamsMap[teamIdPlayer]
+  const oldTeamLessPlayers = helpers.removeByObjectAttribute('id', playerId, oldTeam.players)
+  teamsMap[teamIdPlayer].players = oldTeamLessPlayers
+
+  // Agregar jugador al nuevo equipo
+  team.players.push(player)
+
+  // Restar el dinero del jugador a su equipo
+  team.money -= player.price
 
   res.json({})
 });

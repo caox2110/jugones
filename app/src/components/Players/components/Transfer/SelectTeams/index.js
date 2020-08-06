@@ -13,6 +13,7 @@ import { Select, Option } from '../../../../shared'
 function SelectTeams({
     modalVisible,
     loading,
+    hasChange,
     teamId,
     teams,
     setTeams,
@@ -26,7 +27,6 @@ function SelectTeams({
 
     const getTeamsAction = async () => {
         setLoading(true)
-        setMessageConfig()
         try {
             const response = await teamsService.getTeams()
             setTeams(response)
@@ -48,10 +48,16 @@ function SelectTeams({
     useEffect(
         () => {
             if (modalVisible && !loading) {
-                setMessageConfig()
                 getTeamsAction()
             }
         }, [modalVisible])
+
+    useEffect(
+        () => {
+            if (modalVisible && hasChange) {
+                getTeamsAction()
+            }
+        }, [hasChange])
 
     return (
         <Select
@@ -82,6 +88,7 @@ function SelectTeams({
 
 SelectTeams.propTypes = {
     modalVisible: PropTypes.bool.isRequired,
+    hasChange: PropTypes.bool.isRequired,
     loading: PropTypes.bool.isRequired,
     teamId: PropTypes.string.isRequired,
     teams: PropTypes.array.isRequired,

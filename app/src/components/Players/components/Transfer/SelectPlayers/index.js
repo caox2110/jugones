@@ -27,7 +27,6 @@ function SelectPlayers({
 
     const getPlayersAction = async () => {
         setLoading(true)
-        setMessageConfig()
         try {
             const response = await playerService.getPlayers({ teamId })
             setPlayers(response)

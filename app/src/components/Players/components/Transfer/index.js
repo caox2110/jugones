@@ -18,6 +18,7 @@ import styles from './index.module.css'
 
 function Transfer({
     modalVisible,
+    hasChange,
     setHasChange,
 }) {
 
@@ -113,6 +114,7 @@ function Transfer({
                     setTeams={setTeams}
                     setLoading={setLoading}
                     setMessageConfig={setMessageConfig}
+                    hasChange={hasChange}
                 />
                 <SelectPlayers
                     loading={loading}
@@ -148,6 +150,7 @@ function Transfer({
 
 Transfer.propTypes = {
     modalVisible: PropTypes.bool.isRequired,
+    hasChange: PropTypes.bool.isRequired,
     setHasChange: PropTypes.func.isRequired
 }
 
