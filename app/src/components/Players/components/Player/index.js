@@ -5,14 +5,20 @@ import PropTypes from 'prop-types'
 import styles from './index.module.css'
 
 function Player({
-    player
+    player,
+    openDetailModal
 }) {
-    
+
     const { name, img, position, team } = player
+
+    const openDetailModalAction = () => {
+        openDetailModal(player)
+    }
 
     return (
         <li
             className={styles.cardItem}
+            onClick={openDetailModalAction}
         >
             <div className={styles.card}>
                 <div className={styles.logoContainer}>
@@ -42,7 +48,8 @@ function Player({
 }
 
 Player.propTypes = {
-    player: PropTypes.object.isRequired
+    player: PropTypes.object.isRequired,
+    openDetailModal: PropTypes.func.isRequired
 }
 
 export default Player

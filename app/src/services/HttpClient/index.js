@@ -31,12 +31,20 @@ const HttpClient = function ({
 
     // ------------------------------------------
 
-    const getBody = (body) => {
-        if (body !== null) {
-            return {
-                body
-            }
+    const getParams = (baseURL, params) => {
+        if (params) {
+            let url = new URL(baseURL)
+            Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
+            return url
         }
+        return baseURL
+    }
+
+    // ------------------------------------------
+
+    const getBody = (body) => {
+        if (body !== null)
+            return { body: JSON.stringify(body) }
         return
     }
 
@@ -47,7 +55,8 @@ const HttpClient = function ({
 
     const optionalArguments = {
         body: null,
-        contentType: null,
+        params: null,
+        contentType: null
     }
 
     const createConfigForRequest = (
@@ -55,15 +64,14 @@ const HttpClient = function ({
         method = 'GET',
         oArguments = optionalArguments
     ) => {
+        
+        let baseURL = `${API_BASE_URL}/${endpoint}`
 
-        const baseURL = `${API_BASE_URL}/${endpoint}`
-
-        let config = {
-            method,
-        }
+        let config = { method }
 
         config = { ...config, ...getHeaders(oArguments.contentType) }
         config = { ...config, ...getBody(oArguments.body) }
+        baseURL = getParams(baseURL, oArguments.params)
 
         return Object.freeze(new Request(baseURL, config))
     }

@@ -2,8 +2,15 @@ const PlayerService = function (httpClient) {
 
   // ------------------------------------------
 
-  const getPlayers = async () => {
-    const config = httpClient.createConfigForRequest('players','GET')
+  const getPlayers = async (params = null) => {
+    const config = httpClient.createConfigForRequest('players', 'GET', { params })
+    return await httpClient.request(config)
+  }
+
+  // ------------------------------------------
+
+  const transferPlayer = async (body = null) => {
+    const config = httpClient.createConfigForRequest('transfer', 'POST', { body })
     return await httpClient.request(config)
   }
 
@@ -11,6 +18,7 @@ const PlayerService = function (httpClient) {
 
   return Object.freeze({
     getPlayers,
+    transferPlayer
   })
 }
 

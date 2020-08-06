@@ -7,7 +7,8 @@ import styles from './index.module.css'
 function Modal({
     visible,
     closeModal,
-    children
+    children,
+    title
 }) {
 
     const closeClass = useMemo(() => (visible ? null : styles.closed))
@@ -20,6 +21,9 @@ function Modal({
         <Fragment>
             <div className={`${styles.overlay} ${closeClass}`}></div>
             <div className={`${styles.modal} ${closeClass}`}>
+                <div className={`${styles.title}`}>
+                    <h3>{title}</h3>
+                </div>
                 <div className={styles.content}>
                     {children}
                 </div>
@@ -37,7 +41,8 @@ function Modal({
 }
 
 Modal.defaultProps = {
-    visible: false
+    visible: false,
+    title: 'Modal'
 }
 
 Modal.propTypes = {

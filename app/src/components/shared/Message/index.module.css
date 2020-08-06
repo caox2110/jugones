@@ -1,10 +1,12 @@
 .container {
     padding: 16px;
+    margin-top: 8px;
 }
 
-.message {
-    margin-bottom: 12px;
+.container::first-letter {
+    text-transform: capitalize;
 }
+
 
 .error {
     color: var(--red-color-base);
@@ -15,5 +17,5 @@
 }
 
 .success {
-    color: var(--red-color-base);
+    color: var(--lime-color-base);
 }

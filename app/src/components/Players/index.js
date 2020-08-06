@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 
 // Servicios
 import services from '../../services'
@@ -11,7 +11,8 @@ import { messagesConstants as constants } from '../../constants'
 
 // Components
 import Player from './components/Player'
-import { Spin, Message } from '../shared'
+import Transfer from './components/Transfer'
+import { Spin, Message, Modal } from '../shared'
 
 // Estilos
 import styles from './index.module.css'
@@ -22,13 +23,19 @@ function Players() {
     const { ERROR } = constants
 
     const [loading, setLoading] = useState(false)
+    const [visible, setVisible] = useState(false)
+    const [hasChange, setHasChange] = useState(false)
+    const [isOffLine, setIsOffLine] = useState(false)
     const [players, setPlayers] = useState([])
+    const [playerSelected, setPlayerSelected] = useState({})
     const [level, setLevel] = useState(ERROR)
     const [message, setMessage] = useState('')
     const [playersFromIdb, setPlayersInIdb] = useIndexedDB('players')
 
+
     const getPlayersAction = async () => {
         setLoading(true)
+        setIsOffLine(false)
         setMessageConfig()
         try {
             const response = await playerService.getPlayers()
@@ -39,6 +46,7 @@ function Players() {
                 'En estos momentos no se pueden obtener los jugadores del servidor.',
                 ERROR
             )
+            setIsOffLine(true)
         }
         setLoading(false)
     }
@@ -53,6 +61,15 @@ function Players() {
         setMessage(msg)
     }
 
+    const openPlayerDetail = (player) => {
+        setPlayerSelected(player)
+        toogleModal()
+    }
+
+    const toogleModal = () => {
+        setVisible(!visible)
+    }
+
     useEffect(
         () => {
             getPlayersAction()
@@ -60,33 +77,56 @@ function Players() {
 
     useEffect(
         () => {
-            if (playersFromIdb)
+            if (!visible && hasChange) {
+                getPlayersAction()
+                setHasChange(false)
+            }
+        }, [visible, hasChange])
+
+    useEffect(
+        () => {
+            if (isOffLine)
                 setData(playersFromIdb)
-        }, [playersFromIdb])
+        }, [isOffLine])
 
     return (
-        <Spin
-            visible={loading}
-        >
-            <Message
-                visible={(message.length > 0)}
-                message={message}
-                level={level}
+        <Fragment>
+            <Spin
+                visible={loading}
             >
-                <ul className={styles.cardContainer}>
-                    {
-                        players.map(
-                            (player, i) => (
-                                <Player
-                                    key={`${player.teamId}-${i}`}
-                                    player={player}
-                                />
+                <Message
+                    visible={(message.length > 0)}
+                    message={message}
+                    level={level}
+                >
+                    <ul className={styles.cardContainer}>
+                        {
+                            players.map(
+                                (player, i) => (
+                                    <Player
+                                        key={`${player.teamId}-${i}`}
+                                        player={player}
+                                        openDetailModal={openPlayerDetail}
+                                    />
+                                )
                             )
-                        )
-                    }
-                </ul>
-            </Message>
-        </Spin>
+                        }
+                    </ul>
+                </Message>
+            </Spin>
+            <Modal
+                visible={visible}
+                closeModal={toogleModal}
+                title='Transfer'
+            >
+                <Transfer
+                    modalVisible={visible}
+                    playerSelected={playerSelected}
+                    players={players}
+                    setHasChange={setHasChange}
+                />
+            </Modal>
+        </Fragment>
     )
 }
 

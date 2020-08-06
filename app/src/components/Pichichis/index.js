@@ -23,6 +23,7 @@ function Pichichis({
     const { ERROR } = constants
 
     const [loading, setLoading] = useState(false)
+    const [isOffLine, setIsOffLine] = useState(false)
     const [level, setLevel] = useState(ERROR)
     const [message, setMessage] = useState('')
     const [pichichis, setPichichis] = useState([])
@@ -31,6 +32,7 @@ function Pichichis({
 
     const getPichichisAction = async () => {
         setLoading(true)
+        setIsOffLine(false)
         setMessageConfig()
         try {
             const response = await pichichiService.getPichichis()
@@ -41,6 +43,7 @@ function Pichichis({
                 'En estos momentos no se pueden obtener los pichichis del servidor.',
                 ERROR
             )
+            setIsOffLine(true)
         }
         setLoading(false)
     }
@@ -78,9 +81,9 @@ function Pichichis({
 
     useEffect(
         () => {
-            if (pichichisFromIdb)
+            if (isOffLine)
                 setData(pichichisFromIdb)
-        }, [pichichisFromIdb])
+        }, [isOffLine])
 
     return (
         <div className={styles.container}>

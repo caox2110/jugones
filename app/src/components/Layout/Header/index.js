@@ -28,6 +28,7 @@ function Header() {
             <Modal
                 visible={visible}
                 closeModal={toogleModal}
+                title='Pichichis'
             >
                 <Pichichis
                     modalVisible={visible}

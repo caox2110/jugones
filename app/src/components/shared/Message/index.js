@@ -28,6 +28,7 @@ function Message({
             messageStyle += ` ${styles.error}`
             break
     }
+
     if (visible)
         return (
             <Fragment>
@@ -37,6 +38,7 @@ function Message({
                 {children}
             </Fragment>
         )
+
     return children
 }
 

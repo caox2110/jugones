@@ -220,10 +220,14 @@ app.get('/players', function (req, res) {
   // ]
   // TIP: familiarizate primero con los objetos de los equipos: var madrid, barcelona y atletico.
   // TIP2: asegurate que position no es el código de la posición, si no el string
+  // Recoger el team Id para filtrar los jugadores por equipo
+  const teamId = req.query.teamId
   const results = [madrid, barcelona, atletico]
     .reduce(
       (playersGrouped, team) => {
         const { players } = team
+        if (teamId == parseInt(team.id, 10))
+          return playersGrouped
         return [
           ...playersGrouped,
           ...players.map(
